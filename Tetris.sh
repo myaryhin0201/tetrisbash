@@ -1,14 +1,10 @@
-
-
 set -u # niezainicjowana zmienna jest błędem
-
 
 # Używane są 2 sygnały: SIGUSR1, aby zmienić opóźnienie po podniesieniu poziomu i SIGUSR2, aby wyjść
 # są wysyłane do wszystkich instancji tego skryptu
 # z tego powodu powinniśmy je przetwarzać w każdym przypadku
 # w tym przypadku ignorujemy oba sygnał
 trap '' SIGUSR1 SIGUSR2
-
 
 # Są to polecenia wysyłane do kontrolera za pomocą kodu przetwarzania klucza
 # W kontrolerze są używane jako indeks do pobierania rzeczywistego funktuonu z tablicy
@@ -18,11 +14,7 @@ LEFT=2
 ROTATE=3
 DOWN=4
 DROP=5
-TOGGLE_HELP=6
-TOGGLE_NEXT=7
-TOGGLE_COLOR=8
-
-DELAY=1000            # początkowe opóźnienie między ruchami części (milisekundy)
+DELAY=1000          # początkowe opóźnienie między ruchami części (milisekundy)
 DELAY_FACTOR="8/10" # ta wartość kontroluje zmniejszenie opóźnienia dla każdego poziomu w górę
 
 # kolory
@@ -64,10 +56,10 @@ LEVEL_UP=20
 
 colors=($RED $GREEN $YELLOW $BLUE $FUCHSIA $CYAN $WHITE)
 
-use_color=1        # 1 jeśli użyjemy koloru, 0 jeśli nie
-showtime=1       # kontroler działa, gdy ta flaga to 1
-empty_cell="."   # jak rysujemy pustą komórkę
-filled_cell="[]" # jak rysujemy wypełnioną komórkę
+use_color=1      
+showtime=1       
+empty_cell="."   
+filled_cell="[]" 
 
 score=0           # inicjalizacja zmiennej wynikowej
 level=1           # inicjalizacja zmiennej poziomu
@@ -79,7 +71,6 @@ lines_completed=0 # zakończone inicjowanie licznika linii
 puts() {
     screen_buffer+=${1}
 }
-
 
 # przenieś kursor na (x, y) i ciąg wydruku
 # (1,1) to lewy górny róg ekranu
@@ -174,22 +165,6 @@ draw_help() {
     reset_colors
 }
 
-toggle_help() {
-    ((help_on ^= 1))
-    draw_help
-}
-
-
-# ta tablica zawiera wszystkie możliwe elementy, które można wykorzystać w grze
-# każdy kawałek składa się z 4 komórek ponumerowanych od 0x0 do 0xf:
-# 0123
-# 4567
-# 89ab
-# cdef
-# każdy ciąg jest sekwencją komórek dla różnych orientacji
-# w zależności od symetrii elementu mogą występować 1, 2 lub 4 orientacje Współrzędne 
-# są obliczane w następujący sposób:
-# x=((cell & 3)); y=((cell >> 2))
 piece_data=(
 "1256"             # square
 "159d4567"         # line
@@ -282,7 +257,6 @@ get_random_next() {
     ((next_piece = RANDOM % ${#piece_data[@]}))
     ((next_piece_rotation = RANDOM % (${#piece_data[$next_piece]} / 4)))
     ((next_piece_color = colors[RANDOM % ${#colors[@]}]))
-  #  draw_next
 }
 
 draw_border() {
@@ -308,7 +282,6 @@ draw_border() {
 }
 
 redraw_screen() {
-  #  draw_next
     update_score 0
     draw_help
     draw_border
@@ -355,7 +328,7 @@ reader() {
     # polecenia to tablica asocjacyjna, która mapuje wciśnięte klawisze do poleceń, wysyłane do kontrolera
     declare -A commands=([A]=$ROTATE [C]=$RIGHT [D]=$LEFT
         [_S]=$ROTATE [_A]=$LEFT [_D]=$RIGHT
-        [_]=$DROP [_Q]=$QUIT [_H]=$TOGGLE_HELP [_N]=$TOGGLE_NEXT)
+        [_]=$DROP [_Q]=$QUIT )
 
     while read -s -n 1 key ; do
         case "$a$b$key" in
