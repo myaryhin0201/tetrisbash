@@ -58,7 +58,7 @@ colors=($RED $GREEN $YELLOW $BLUE $FUCHSIA $CYAN $WHITE)
 
 use_color=1      
 showtime=1       
-empty_cell="."   
+empty_cell=" ."   
 filled_cell="[]" 
 
 score=0           # inicjalizacja zmiennej wynikowej
@@ -166,7 +166,7 @@ draw_help() {
 }
 
 piece_data=(
-"1256"             # square
+"1256"             # kwadrat
 "159d4567"         # line
 "45120459"         # s
 "01561548"         # z
@@ -309,7 +309,6 @@ init() {
     redraw_screen
 }
 
-
 # ta funkcja działa w oddzielnym procesie
 # wysyła polecenia DOWN do kontrolera z odpowiednim opóźnieniem
 ticker() {
@@ -431,7 +430,7 @@ cmd_down() {
 }
 
 cmd_drop() {
-  # przesuń kawałek w dół
+  
     # to przykład pętli do..while w bashu
     # ciało pętli jest puste
     # Warunek  pętli jest wykonywany przynajmniej raz
